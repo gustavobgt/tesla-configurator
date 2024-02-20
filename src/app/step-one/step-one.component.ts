@@ -1,22 +1,22 @@
 import { HttpClientModule } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { CarModelService } from './services/car-model.service';
-import { Observable } from 'rxjs';
+
 import { CarModel } from '../models/car-model.model';
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { CarColor } from '../models/car-color.model';
 import {
-  FormBuilder,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { CarModelImgDirective } from './directives/car-model-img.directive';
 
 @Component({
   selector: 'app-step-one',
   standalone: true,
-  imports: [HttpClientModule, NgFor, NgIf, ReactiveFormsModule],
+  imports: [HttpClientModule, NgFor, NgIf, ReactiveFormsModule, CarModelImgDirective],
   providers: [CarModelService],
   templateUrl: './step-one.component.html',
   styleUrl: './step-one.component.scss',

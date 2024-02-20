@@ -6,7 +6,7 @@
     <div class="row">
       <div class="col-sm-12 col-md-6">
         <label for="model">Model</label>
-        <select formControlName="modelCode" style="width: 85%" class="doc">
+        <select id="modelSelect" formControlName="modelCode" style="width: 85%" class="doc">
           <option [ngValue]="null" disabled class="doc">Choose...</option>
           <option
             *ngFor="let carModel of carModels"
@@ -17,9 +17,12 @@
           </option>
         </select>
       </div>
-      <div *ngIf="selectedModelColors && selectedModelColors.length > 0" class="col-sm-12 col-md-6">
+      <div
+        *ngIf="selectedModelColors && selectedModelColors.length > 0"
+        class="col-sm-12 col-md-6"
+      >
         <label for="model">Color</label>
-        <select formControlName="modelColor" style="width: 85%" class="doc">
+        <select id="colorSelect" formControlName="modelColor" style="width: 85%" class="doc">
           <option
             *ngFor="let selectedModelColor of selectedModelColors"
             [ngValue]="selectedModelColor.code"
@@ -32,3 +35,11 @@
     </div>
   </fieldset>
 </form>
+
+<div *ngIf="stepOneForm.get('modelCode')?.value && stepOneForm.get('modelColor')?.value">
+  <img
+    appCarModelImg
+    [carModelCode]="stepOneForm.get('modelCode')?.value"
+    [carColorCode]="stepOneForm.get('modelColor')?.value"
+  />
+</div>
