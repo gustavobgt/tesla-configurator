@@ -46,24 +46,14 @@ export class StepOneComponent implements OnInit {
     this.getCarModels().subscribe((carModels) => (this.carModels = carModels));
     // TODO: unsubscribe ????
     this.stepsForm = this.formProviderService.getStepsForm();
-
     this.stepsForm
       .get('model.modelCode')
-      ?.valueChanges.subscribe((modelCode) => this.onModelChange(modelCode));
-  }
-
-  onModelChange(modelCode: CarModel['code'] | null) {
-    const foundedModel = this.carModels.find(
-      (cardModel) => cardModel.code === modelCode
-    );
-    if (!foundedModel) return;
-    this.selectedModelColors = foundedModel.colors;
-
-    const defaultColor = this.selectedModelColors[0].code;
-
-    this.stepsForm.controls['model'].controls['modelColor'].setValue(
-      defaultColor
-    );
+      ?.valueChanges.subscribe((modelCode) =>
+        this.formProviderService.onModelChange(modelCode, this.carModels)
+      );
+    this.formProviderService.selectedModelColors$.subscribe((value) => {
+      this.selectedModelColors = value;
+    });
   }
 
   getCarModels() {
