@@ -1,5 +1,28 @@
 <header class="sticky">
-  <a routerLink="/step-one" class="button">Step 1</a>
-  <a routerLink="/step-two" class="button">Step 2</a>
-  <a routerLink="/step-three" class="button">Step 3</a>
+  <button
+    role="link"
+    id="step1"
+    (click)="onNavigate('/step-one')"
+    class="button"
+  >
+    Step 1
+  </button>
+  <button
+    role="link"
+    [disabled]="!isStepOneValid"
+    id="step2"
+    (click)="onNavigate('/step-two')"
+    class="button"
+  >
+    Step 2
+  </button>
+  <button
+    role="link"
+    disabled
+    id="step3"
+    (click)="onNavigate('/step-three')"
+    class="button"
+  >
+    Step 3
+  </button>
 </header>

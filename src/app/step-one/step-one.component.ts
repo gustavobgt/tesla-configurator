@@ -4,14 +4,10 @@ import { CarModelService } from './services/car-model.service';
 import { CarModel } from '../models/car-model.model';
 import { NgFor, NgIf } from '@angular/common';
 import { CarColor } from '../models/car-color.model';
-import {
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { CarModelImgDirective } from './directives/car-model-img.directive';
 import { FormProviderService } from '../services/form-provider.service';
+import { StepsForm } from '../services/form-provider.model';
 
 @Component({
   selector: 'app-step-one',
@@ -30,12 +26,7 @@ import { FormProviderService } from '../services/form-provider.service';
 export class StepOneComponent implements OnInit {
   carModels!: CarModel[];
   selectedModelColors?: CarColor[];
-  stepsForm!: FormGroup<{
-    model: FormGroup<{
-      modelCode: FormControl<string | null>;
-      modelColor: FormControl<string | null>;
-    }>;
-  }>;
+  stepsForm!: StepsForm;
 
   constructor(
     private carModelService: CarModelService,
@@ -43,20 +34,35 @@ export class StepOneComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getCarModels().subscribe((carModels) => (this.carModels = carModels));
-    // TODO: unsubscribe ????
+    this.getCarModels();
     this.stepsForm = this.formProviderService.getStepsForm();
-    this.stepsForm
-      .get('model.modelCode')
-      ?.valueChanges.subscribe((modelCode) =>
-        this.formProviderService.onModelChange(modelCode, this.carModels)
-      );
+    this.handleModelCodeChanges();
+  }
+
+  getCarModels() {
+    return this.carModelService
+      .getCarModels()
+      .subscribe((carModels) => (this.carModels = carModels));
+  }
+
+  handleModelCodeChanges() {
+    const modelCodeControl = this.stepsForm.get('model.modelCode');
+
+    if (!modelCodeControl) return;
+    // TODO: unsubscribe ????
+    modelCodeControl.valueChanges.subscribe((modelCode) =>
+      this.formProviderService.onModelChange(modelCode, this.carModels)
+    );
     this.formProviderService.selectedModelColors$.subscribe((value) => {
       this.selectedModelColors = value;
     });
   }
 
-  getCarModels() {
-    return this.carModelService.getCarModels();
+  get modelCode() {
+    return this.stepsForm.get('model.modelCode')?.value;
+  }
+
+  get modelColor() {
+    return this.stepsForm.get('model.modelColor')?.value;
   }
 }

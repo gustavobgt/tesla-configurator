@@ -36,10 +36,10 @@
   </fieldset>
 </form>
 
-<div *ngIf="stepsForm.get('model.modelCode')?.value && stepsForm.get('model.modelColor')?.value">
+<div *ngIf="modelCode && modelColor">
   <img
     appCarModelImg
-    [carModelCode]="stepsForm.get('model.modelCode')?.value"
-    [carColorCode]="stepsForm.get('model.modelColor')?.value"
+    [carModelCode]="modelCode"
+    [carColorCode]="modelColor"
   />
 </div>
