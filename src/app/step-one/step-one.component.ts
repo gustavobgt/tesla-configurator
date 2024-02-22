@@ -20,7 +20,6 @@ import { FormProviderService } from '../services/form-provider.service';
   ],
   providers: [CarModelService],
   templateUrl: './step-one.component.html',
-  styleUrl: './step-one.component.scss',
 })
 export class StepOneComponent implements OnInit {
   carModels: CarModel[] = [];
@@ -46,13 +45,13 @@ export class StepOneComponent implements OnInit {
     const modelCodeControl = this.stepsForm.get('model.modelCode');
 
     if (!modelCodeControl) return;
-    // TODO: unsubscribe ????
+    // TODO: COLOCAR ESSA REGRA NO FORMS PROVIDER
     modelCodeControl.valueChanges.subscribe((modelCode) =>
       this.formProviderService.onModelChange(modelCode, this.carModels)
     );
-    // TODO: unsubscribe ????
-    this.formProviderService.selectedModelColors$.subscribe((value) => {
-      this.selectedModelColors = value;
+    // TODO: unsubscribe ???? Usar async pipe
+    this.formProviderService.selectedModel$.subscribe((selectedModel) => {
+      this.selectedModelColors = selectedModel?.colors;
     });
   }
 

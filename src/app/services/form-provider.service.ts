@@ -9,8 +9,8 @@ import { CarConfig } from '../models/car-config.model';
   providedIn: 'root',
 })
 export class FormProviderService {
-  private modelColors$ = new BehaviorSubject<CarColor[] | []>([]);
-  selectedModelColors$ = this.modelColors$.asObservable();
+  private model$ = new BehaviorSubject<CarModel | null>(null);
+  selectedModel$ = this.model$.asObservable();
   private carConfig$ = new BehaviorSubject<CarConfig | null>(null);
   selectedCarConfig$ = this.carConfig$.asObservable();
   stepsForm = new FormGroup({
@@ -36,7 +36,7 @@ export class FormProviderService {
       (cardModel) => cardModel.code === modelCode
     );
     if (!foundedModel) return;
-    this.modelColors$.next(foundedModel.colors);
+    this.model$.next(foundedModel);
 
     const defaultColor = foundedModel.colors[0].code;
 

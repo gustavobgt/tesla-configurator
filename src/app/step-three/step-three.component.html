@@ -1,1 +1,71 @@
-<p>step-three works!</p>
+<h1>Step 3: Summary</h1>
+
+<h2 *ngIf="selectedModel">Your Tesla {{ selectedModel.description }}</h2>
+
+<div class="row" *ngIf="selectedCarConfig">
+  <div class="col-sm">
+    <p>
+      <b>{{ selectedCarConfig.description }}</b>
+      <br />
+      Range: {{ selectedCarConfig.range }} miles - Max speed
+      {{ selectedCarConfig.speed }}
+    </p>
+  </div>
+  <div class="col-sm">
+    <p>{{ selectedCarConfig.price | currency }}</p>
+  </div>
+</div>
+
+<div class="row" *ngIf="selectedModelColor">
+  <div class="col-sm">
+    <p>
+      <b>{{ selectedModelColor.description }}</b>
+    </p>
+  </div>
+  <div class="col-sm">
+    <p>{{ selectedModelColor.price | currency }}</p>
+  </div>
+</div>
+
+<div class="row" *ngIf="hasTowHitchPackage">
+  <div class="col-sm">
+    <p>
+      <b>Tow Hitch Package</b>
+    </p>
+  </div>
+  <div class="col-sm">
+    <p>{{ 1000 | currency }}</p>
+  </div>
+</div>
+
+<div class="row" *ngIf="hasYokePackage">
+  <div class="col-sm">
+    <p>
+      <b>Yoke Package</b>
+    </p>
+  </div>
+  <div class="col-sm">
+    <p>{{ 1000 | currency }}</p>
+  </div>
+</div>
+
+<hr />
+
+<div class="row" *ngIf="selectedCarConfig && selectedModelColor">
+  <div class="col-sm">
+    <p>
+      <b>TOTAL COST</b>
+    </p>
+  </div>
+  <div class="col-sm">
+    <p>
+      {{
+        selectedCarConfig.price +
+          selectedModelColor.price +
+          (hasTowHitchPackage ? 1000 : 0) +
+          (hasYokePackage ? 1000 : 0) | currency
+      }}
+    </p>
+  </div>
+</div>
+<hr />

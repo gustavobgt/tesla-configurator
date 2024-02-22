@@ -136,7 +136,7 @@ const handlers = [
     // @ts-ignore
     return HttpResponse.json(options[params.id.toUpperCase()]);
   }),
-  http.get('/models', ({ request, params, cookies }) => {
+  http.get('/models', () => {
     return HttpResponse.json([
       {
         code: 'S',

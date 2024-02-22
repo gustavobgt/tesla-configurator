@@ -12,7 +12,6 @@ import { CurrencyPipe, NgFor, NgIf } from '@angular/common';
   imports: [HttpClientModule, ReactiveFormsModule, NgFor, NgIf, CurrencyPipe],
   providers: [CarOptionsService],
   templateUrl: './step-two.component.html',
-  styleUrl: './step-two.component.scss',
 })
 export class StepTwoComponent implements OnInit {
   carConfigs: CarConfig[] = [];
@@ -47,11 +46,11 @@ export class StepTwoComponent implements OnInit {
     const configIdControl = this.stepsForm.get('configAndOptions.configId');
 
     if (!configIdControl) return;
-    // TODO: unsubscribe ????
+    // TODO: unsubscribe ???? Usar async pipe
     configIdControl.valueChanges.subscribe((configId) =>
       this.formProviderService.onCarConfigChange(configId, this.carConfigs)
     );
-    // TODO: unsubscribe ????
+    // TODO: unsubscribe ???? Usar async pipe
     this.formProviderService.selectedCarConfig$.subscribe((value) => {
       this.selectedCarConfig = value;
     });
