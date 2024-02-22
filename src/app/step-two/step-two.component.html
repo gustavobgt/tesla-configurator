@@ -1,1 +1,32 @@
-<p>step-two works!</p>
+<h1>Step 2: Select your config and options</h1>
+
+<form [formGroup]="stepsForm">
+  <fieldset>
+    <legend>Config and Options</legend>
+    <div formGroupName="configAndOptions" class="row">
+      <div class="col-sm-12 col-md-6">
+        <label for="configSelect">Config</label>
+        <select
+          id="configSelect"
+          formControlName="configId"
+          style="width: 85%"
+          class="doc"
+        >
+          <option [ngValue]="null" disabled class="doc">Choose...</option>
+          <option
+            *ngFor="let carConfig of carConfigs"
+            [ngValue]="carConfig.id"
+            class="doc"
+          >
+            {{ carConfig.description }}
+          </option>
+        </select>
+        <p *ngIf="!!selectedCarConfig">
+          Range: {{ selectedCarConfig.range }} miles - Max speed:
+          {{ selectedCarConfig.speed }} - Cost
+          {{ selectedCarConfig.price | currency }}
+        </p>
+      </div>
+    </div>
+  </fieldset>
+</form>

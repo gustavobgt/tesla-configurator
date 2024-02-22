@@ -40,7 +40,7 @@ export class StepOneComponent implements OnInit {
   }
 
   getCarModels() {
-    return this.carModelService
+    this.carModelService
       .getCarModels()
       .subscribe((carModels) => (this.carModels = carModels));
   }

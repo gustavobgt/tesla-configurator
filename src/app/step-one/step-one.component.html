@@ -5,7 +5,7 @@
     <legend>Model and color</legend>
     <div formGroupName="model" class="row">
       <div class="col-sm-12 col-md-6">
-        <label for="model">Model</label>
+        <label for="modelSelect">Model</label>
         <select id="modelSelect" formControlName="modelCode" style="width: 85%" class="doc">
           <option [ngValue]="null" disabled class="doc">Choose...</option>
           <option
@@ -21,7 +21,7 @@
         *ngIf="selectedModelColors && selectedModelColors.length > 0"
         class="col-sm-12 col-md-6"
       >
-        <label for="model">Color</label>
+        <label for="colorSelect">Color</label>
         <select id="colorSelect" formControlName="modelColor" style="width: 85%" class="doc">
           <option
             *ngFor="let selectedModelColor of selectedModelColors"
