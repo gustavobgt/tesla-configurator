@@ -27,6 +27,26 @@
           {{ selectedCarConfig.price | currency }}
         </p>
       </div>
+
+      <div *ngIf="hasIncludeTowCheckbox" class="col-sm-12 col-md-6">
+        <label for="includeTow">Tow Hitch?</label>
+        <input
+          type="checkbox"
+          formControlName="includeTow"
+          id="includeTow"
+          class="doc"
+        />
+      </div>
+
+      <div *ngIf="hasIncludeYokeCheckbox" class="col-sm-12 col-md-6">
+        <label for="includeYoke">Yoke steering wheel?</label>
+        <input
+          type="checkbox"
+          formControlName="includeYoke"
+          id="includeYoke"
+          class="doc"
+        />
+      </div>
     </div>
   </fieldset>
 </form>

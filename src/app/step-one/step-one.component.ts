@@ -7,7 +7,6 @@ import { CarColor } from '../models/car-color.model';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CarModelImgDirective } from './directives/car-model-img.directive';
 import { FormProviderService } from '../services/form-provider.service';
-import { StepsForm } from '../services/form-provider.model';
 
 @Component({
   selector: 'app-step-one',
@@ -24,9 +23,8 @@ import { StepsForm } from '../services/form-provider.model';
   styleUrl: './step-one.component.scss',
 })
 export class StepOneComponent implements OnInit {
-  carModels!: CarModel[];
+  carModels: CarModel[] = [];
   selectedModelColors?: CarColor[];
-  stepsForm!: StepsForm;
 
   constructor(
     private carModelService: CarModelService,
@@ -35,7 +33,6 @@ export class StepOneComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCarModels();
-    this.stepsForm = this.formProviderService.getStepsForm();
     this.handleModelCodeChanges();
   }
 
@@ -53,6 +50,7 @@ export class StepOneComponent implements OnInit {
     modelCodeControl.valueChanges.subscribe((modelCode) =>
       this.formProviderService.onModelChange(modelCode, this.carModels)
     );
+    // TODO: unsubscribe ????
     this.formProviderService.selectedModelColors$.subscribe((value) => {
       this.selectedModelColors = value;
     });
@@ -64,5 +62,9 @@ export class StepOneComponent implements OnInit {
 
   get modelColor() {
     return this.stepsForm.get('model.modelColor')?.value;
+  }
+
+  get stepsForm() {
+    return this.formProviderService.getStepsForm();
   }
 }

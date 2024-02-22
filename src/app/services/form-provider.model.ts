@@ -10,5 +10,7 @@ export type StepsForm = FormGroup<{
   }>;
   configAndOptions: FormGroup<{
     configId: FormControl<CarConfig['id'] | null>;
+    includeTow: FormControl<boolean>;
+    includeYoke: FormControl<boolean>;
   }>;
 }>;

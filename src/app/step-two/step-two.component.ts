@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CarOptionsService } from './services/car-options.service';
 import { FormProviderService } from '../services/form-provider.service';
-import { StepsForm } from '../services/form-provider.model';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CarConfig } from '../models/car-config.model';
@@ -16,9 +15,10 @@ import { CurrencyPipe, NgFor, NgIf } from '@angular/common';
   styleUrl: './step-two.component.scss',
 })
 export class StepTwoComponent implements OnInit {
-  stepsForm!: StepsForm;
   carConfigs: CarConfig[] = [];
   selectedCarConfig: CarConfig | null = null;
+  hasIncludeTowCheckbox: boolean = false;
+  hasIncludeYokeCheckbox: boolean = false;
 
   constructor(
     private formProviderService: FormProviderService,
@@ -27,7 +27,6 @@ export class StepTwoComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCarConfigs();
-    this.stepsForm = this.formProviderService.getStepsForm();
     this.handleCarConfigChanges();
   }
 
@@ -39,6 +38,8 @@ export class StepTwoComponent implements OnInit {
 
     this.carOptionsService.getCarOptions(carModelCode).subscribe((data) => {
       this.carConfigs = data.configs;
+      this.hasIncludeTowCheckbox = data.towHitch;
+      this.hasIncludeYokeCheckbox = data.yoke;
     });
   }
 
@@ -50,8 +51,13 @@ export class StepTwoComponent implements OnInit {
     configIdControl.valueChanges.subscribe((configId) =>
       this.formProviderService.onCarConfigChange(configId, this.carConfigs)
     );
+    // TODO: unsubscribe ????
     this.formProviderService.selectedCarConfig$.subscribe((value) => {
       this.selectedCarConfig = value;
     });
+  }
+
+  get stepsForm() {
+    return this.formProviderService.getStepsForm();
   }
 }

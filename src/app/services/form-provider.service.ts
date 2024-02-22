@@ -26,6 +26,8 @@ export class FormProviderService {
       configId: new FormControl<CarConfig['id'] | null>(null, [
         Validators.required,
       ]),
+      includeTow: new FormControl<boolean>(false),
+      includeYoke: new FormControl<boolean>(false),
     }),
   });
 
@@ -42,13 +44,9 @@ export class FormProviderService {
       defaultColor
     );
 
-    if (
-      this.stepsForm.controls['configAndOptions'].controls['configId'].value
-    ) {
-      this.stepsForm.controls['configAndOptions'].controls['configId'].setValue(
-        null
-      );
-      this.carConfig$.next(null)
+    if (this.configIdControl.value) {
+      this.configIdControl.setValue(null);
+      this.carConfig$.next(null);
     }
   }
 
@@ -66,5 +64,9 @@ export class FormProviderService {
 
   getStepsForm() {
     return this.stepsForm;
+  }
+
+  get configIdControl() {
+    return this.stepsForm.controls['configAndOptions'].controls['configId'];
   }
 }

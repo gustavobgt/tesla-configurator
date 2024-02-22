@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { FormProviderService } from '../../services/form-provider.service';
-import { StepsForm } from '../../services/form-provider.model';
 
 @Component({
   selector: 'app-tabs',
@@ -10,17 +9,12 @@ import { StepsForm } from '../../services/form-provider.model';
   templateUrl: './tabs.component.html',
   styleUrl: './tabs.component.scss',
 })
-export class TabsComponent implements OnInit {
-  stepsForm!: StepsForm;
+export class TabsComponent {
 
   constructor(
     private router: Router,
     private formProviderService: FormProviderService
   ) {}
-
-  ngOnInit(): void {
-    this.stepsForm = this.formProviderService.getStepsForm();
-  }
 
   onNavigate(path: string) {
     this.router.navigate([path])
@@ -28,5 +22,13 @@ export class TabsComponent implements OnInit {
 
   get isStepOneValid () {
     return this.stepsForm.controls['model'].valid
+  }
+
+  get isStepTwoValid () {
+    return this.stepsForm.controls['configAndOptions'].valid
+  }
+
+  get stepsForm() {
+    return this.formProviderService.getStepsForm();
   }
 }
