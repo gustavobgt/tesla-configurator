@@ -10,22 +10,21 @@ import { FormProviderService } from '../../services/form-provider.service';
   styleUrl: './tabs.component.scss',
 })
 export class TabsComponent {
-
   constructor(
     private router: Router,
     private formProviderService: FormProviderService
   ) {}
 
   onNavigate(path: string) {
-    this.router.navigate([path])
+    this.router.navigate([path]);
   }
 
-  get isStepOneValid () {
-    return this.stepsForm.controls['model'].valid
+  get isStepOneValid() {
+    return this.stepsForm.controls['model'].valid;
   }
 
-  get isStepTwoValid () {
-    return this.stepsForm.controls['configAndOptions'].valid
+  get isStepTwoValid() {
+    return this.stepsForm.controls['configAndOptions'].valid;
   }
 
   get stepsForm() {
