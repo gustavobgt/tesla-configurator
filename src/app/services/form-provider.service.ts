@@ -81,14 +81,6 @@ export class FormProviderService {
     return this.stepsForm.controls['configAndOptions'].controls['includeYoke'];
   }
 
-  get isStepOneValid() {
-    return this.stepsForm.controls['model'].valid;
-  }
-
-  get isStepTwoValid() {
-    return this.stepsForm.controls['configAndOptions'].valid;
-  }
-
   canActivateFormStep(step: 2 | 3) {
     const steps = {
       2: this.stepsForm.controls['model'].valid,

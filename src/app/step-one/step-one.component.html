@@ -18,13 +18,13 @@
         </select>
       </div>
       <div
-        *ngIf="selectedModelColors && selectedModelColors.length > 0"
+        *ngIf="(selectedModel$ | async) as selectedModel"
         class="col-sm-12 col-md-6"
       >
         <label for="colorSelect">Color</label>
         <select id="colorSelect" formControlName="modelColor" style="width: 85%" class="doc">
           <option
-            *ngFor="let selectedModelColor of selectedModelColors"
+            *ngFor="let selectedModelColor of selectedModel.colors"
             [ngValue]="selectedModelColor.code"
             class="doc"
           >

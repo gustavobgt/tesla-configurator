@@ -2,11 +2,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { CarModelService } from './services/car-model.service';
 import { CarModel } from '../models/car-model.model';
-import { NgFor, NgIf } from '@angular/common';
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { CarColor } from '../models/car-color.model';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CarModelImgDirective } from './directives/car-model-img.directive';
 import { FormProviderService } from '../services/form-provider.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-step-one',
@@ -17,13 +18,14 @@ import { FormProviderService } from '../services/form-provider.service';
     NgIf,
     ReactiveFormsModule,
     CarModelImgDirective,
+    AsyncPipe,
   ],
   providers: [CarModelService],
   templateUrl: './step-one.component.html',
 })
 export class StepOneComponent implements OnInit {
   carModels: CarModel[] = [];
-  selectedModelColors?: CarColor[];
+  selectedModel$?: Observable<CarModel | null>;
 
   constructor(
     private carModelService: CarModelService,
@@ -33,6 +35,7 @@ export class StepOneComponent implements OnInit {
   ngOnInit(): void {
     this.getCarModels();
     this.handleModelCodeChanges();
+    this.selectedModel$ = this.formProviderService.selectedModel$;
   }
 
   getCarModels() {
@@ -49,10 +52,6 @@ export class StepOneComponent implements OnInit {
     modelCodeControl.valueChanges.subscribe((modelCode) =>
       this.formProviderService.onModelChange(modelCode, this.carModels)
     );
-    // TODO: unsubscribe ???? Usar async pipe
-    this.formProviderService.selectedModel$.subscribe((selectedModel) => {
-      this.selectedModelColors = selectedModel?.colors;
-    });
   }
 
   get modelCode() {
