@@ -48,6 +48,9 @@ export class FormProviderService {
       this.configIdControl.setValue(null);
       this.carConfig$.next(null);
     }
+
+    this.includeTowControl.setValue(false);
+    this.includeYokeControl.setValue(false);
   }
 
   onCarConfigChange(configId: CarConfig['id'] | null, carConfigs: CarConfig[]) {
@@ -68,5 +71,13 @@ export class FormProviderService {
 
   get configIdControl() {
     return this.stepsForm.controls['configAndOptions'].controls['configId'];
+  }
+
+  get includeTowControl() {
+    return this.stepsForm.controls['configAndOptions'].controls['includeTow'];
+  }
+
+  get includeYokeControl() {
+    return this.stepsForm.controls['configAndOptions'].controls['includeYoke'];
   }
 }
