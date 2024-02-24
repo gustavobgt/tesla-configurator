@@ -1,57 +1,22 @@
-import { Component, OnInit } from '@angular/core';
-import { CarModel } from '../models/car-model.model';
+import { Component, inject } from '@angular/core';
 import { FormProviderService } from '../services/form-provider.service';
-import {
-  AsyncPipe,
-  CurrencyPipe,
-  NgIf,
-  NgTemplateOutlet,
-} from '@angular/common';
-import { CarConfig } from '../models/car-config.model';
-import { Observable } from 'rxjs';
+import { AsyncPipe, CurrencyPipe, NgIf } from '@angular/common';
+import { CartService } from '../services/cart.service';
+import { CarModelImgDirective } from '../directives/car-model-img.directive';
 
 @Component({
   selector: 'app-step-three',
   standalone: true,
-  imports: [NgIf, CurrencyPipe, AsyncPipe],
+  imports: [NgIf, CurrencyPipe, AsyncPipe, CarModelImgDirective],
   templateUrl: './step-three.component.html',
 })
-export class StepThreeComponent implements OnInit {
-  selectedModel: CarModel | null = null;
-  selectedCarConfig: CarConfig | null = null;
-
-  constructor(private formProviderService: FormProviderService) {}
-
-  ngOnInit(): void {
-    this.formProviderService.selectedModel$.subscribe((selectedModel) => {
-      this.selectedModel = selectedModel;
-    });
-    this.formProviderService.selectedCarConfig$.subscribe(
-      (selectedCarConfig) => {
-        this.selectedCarConfig = selectedCarConfig;
-      }
-    );
-  }
-
-  get selectedModelColor() {
-    const modelColorCode =
-      this.stepsForm.controls['model'].controls['modelColor'].value;
-    return this.selectedModel?.colors.find((selectedModelColor) => {
-      return selectedModelColor.code === modelColorCode;
-    });
-  }
-
-  get includeTow() {
-    return this.stepsForm.controls['configAndOptions'].controls['includeTow']
-      .value;
-  }
-
-  get includeYoke() {
-    return this.stepsForm.controls['configAndOptions'].controls['includeYoke']
-      .value;
-  }
-
-  get stepsForm() {
-    return this.formProviderService.getStepsForm();
-  }
+export class StepThreeComponent {
+  cartService = inject(CartService);
+  selectedCarConfig = this.cartService.selectedCarConfig;
+  selectedModel = this.cartService.selectedModel;
+  selectedModelColor = this.cartService.selectedModelColor;
+  totalCost = this.cartService.totalCost;
+  formProviderService = inject(FormProviderService);
+  includeTow = this.formProviderService.includeTow;
+  includeYoke = this.formProviderService.includeYoke;
 }

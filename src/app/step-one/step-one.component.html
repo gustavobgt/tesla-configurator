@@ -9,7 +9,7 @@
         <select id="modelSelect" formControlName="modelCode" style="width: 85%" class="doc">
           <option [ngValue]="null" disabled class="doc">Choose...</option>
           <option
-            *ngFor="let carModel of carModels"
+            *ngFor="let carModel of carModels()"
             [ngValue]="carModel.code"
             class="doc"
           >
@@ -18,7 +18,7 @@
         </select>
       </div>
       <div
-        *ngIf="(selectedModel$ | async) as selectedModel"
+        *ngIf="selectedModel() as selectedModel"
         class="col-sm-12 col-md-6"
       >
         <label for="colorSelect">Color</label>
@@ -36,10 +36,10 @@
   </fieldset>
 </form>
 
-<div *ngIf="modelCode && modelColor">
+<div *ngIf="modelCode() && modelColor()">
   <img
     appCarModelImg
-    [carModelCode]="modelCode"
-    [carColorCode]="modelColor"
+    [carModelCode]="modelCode()"
+    [carColorCode]="modelColor()"
   />
 </div>

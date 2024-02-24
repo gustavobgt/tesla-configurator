@@ -14,21 +14,21 @@
         >
           <option [ngValue]="null" disabled class="doc">Choose...</option>
           <option
-            *ngFor="let carConfig of carConfigs"
+            *ngFor="let carConfig of carConfigs()"
             [ngValue]="carConfig.id"
             class="doc"
           >
             {{ carConfig.description }}
           </option>
         </select>
-        <p *ngIf="selectedCarConfig$ | async as selectedCarConfig">
+        <p *ngIf="selectedCarConfig() as selectedCarConfig">
           Range: {{ selectedCarConfig.range }} miles - Max speed:
           {{ selectedCarConfig.speed }} - Cost
           {{ selectedCarConfig.price | currency }}
         </p>
       </div>
 
-      <div *ngIf="hasIncludeTowCheckbox" class="col-sm-12">
+      <div *ngIf="hasTowCheckbox()" class="col-sm-12">
         <label for="includeTow">Tow Hitch?</label>
         <input
           type="checkbox"
@@ -38,7 +38,7 @@
         />
       </div>
 
-      <div *ngIf="hasIncludeYokeCheckbox" class="col-sm-12">
+      <div *ngIf="hasYokeCheckbox()" class="col-sm-12">
         <label for="includeYoke">Yoke steering wheel?</label>
         <input
           type="checkbox"

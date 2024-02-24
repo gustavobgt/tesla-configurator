@@ -2,7 +2,7 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { appConfig } from './app/app.config';
 import { AppComponent } from './app/app.component';
 import { setupWorker } from 'msw/browser';
-import { http, HttpResponse } from 'msw';
+import { http, HttpResponse, passthrough } from 'msw';
 
 bootstrapApplication(AppComponent, appConfig).catch((err) =>
   console.error(err)
@@ -193,6 +193,8 @@ const handlers = [
       },
     ]);
   }),
+  http.get('*.jpg', () => passthrough()),
+  http.get('*.js', () => passthrough()),
 ];
 export const worker = setupWorker(...handlers);
 worker.start();
