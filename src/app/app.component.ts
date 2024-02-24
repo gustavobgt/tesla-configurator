@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TabsComponent } from './components/tabs/tabs.component';
 import { CartService } from './services/cart.service';
@@ -9,10 +9,14 @@ import { CartService } from './services/cart.service';
   imports: [RouterOutlet, TabsComponent],
   templateUrl: './app.component.html',
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   cartService = inject(CartService);
 
   ngOnInit(): void {
-    this.cartService.initializeCart().subscribe()
+    this.cartService.initializeCart()
+  }
+
+  ngOnDestroy(): void {
+    this.cartService.cleanupAllSubscriptions()
   }
 }

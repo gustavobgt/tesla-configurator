@@ -9,7 +9,6 @@ import { CartService } from '../services/cart.service';
   selector: 'app-step-one',
   standalone: true,
   imports: [NgFor, NgIf, ReactiveFormsModule, CarModelImgDirective],
-  providers: [],
   templateUrl: './step-one.component.html',
 })
 export class StepOneComponent {

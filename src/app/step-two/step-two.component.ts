@@ -9,14 +9,13 @@ import { CartService } from '../services/cart.service';
   selector: 'app-step-two',
   standalone: true,
   imports: [HttpClientModule, ReactiveFormsModule, NgFor, NgIf, CurrencyPipe],
-  providers: [],
   templateUrl: './step-two.component.html',
 })
 export class StepTwoComponent {
   formProviderService = inject(FormProviderService);
   cartService = inject(CartService);
-  hasTowCheckbox = this.cartService.hasTowCheckbox;
-  hasYokeCheckbox = this.cartService.hasYokeCheckbox;
+  hasTowCheckbox = this.formProviderService.hasTowCheckbox;
+  hasYokeCheckbox = this.formProviderService.hasYokeCheckbox;
   carConfigs = this.cartService.carConfigs;
   selectedCarConfig = this.cartService.selectedCarConfig;
   stepsForm = this.formProviderService.getStepsForm();

@@ -9,6 +9,8 @@ import { CarConfig } from '../models/car-config.model';
   providedIn: 'root',
 })
 export class FormProviderService {
+  hasTowCheckbox = signal<boolean>(false);
+  hasYokeCheckbox = signal<boolean>(false);
   stepsForm = new FormGroup({
     model: new FormGroup({
       modelCode: new FormControl<CarModel['code'] | null>(null, [
@@ -52,6 +54,26 @@ export class FormProviderService {
 
   getStepsForm() {
     return this.stepsForm;
+  }
+
+  handleOptionsCleanup() {
+    if (this.configIdControl.value) {
+      this.configIdControl.setValue(null);
+    }
+    this.includeTowControl.setValue(false);
+    this.includeYokeControl.setValue(false);
+  }
+
+  get configIdControl() {
+    return this.stepsForm.controls['configAndOptions'].controls['configId'];
+  }
+
+  get includeTowControl() {
+    return this.stepsForm.controls['configAndOptions'].controls['includeTow'];
+  }
+
+  get includeYokeControl() {
+    return this.stepsForm.controls['configAndOptions'].controls['includeYoke'];
   }
 
   canActivateFormStep(step: 2 | 3) {

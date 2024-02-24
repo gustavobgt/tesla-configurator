@@ -3,16 +3,16 @@ import { CarModel } from '../models/car-model.model';
 import { CarService } from './car.service';
 import { FormProviderService } from './form-provider.service';
 import { CarConfig } from '../models/car-config.model';
-import { tap } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { toObservable } from '@angular/core/rxjs-interop';
 
 @Injectable({ providedIn: 'root' })
 export class CartService {
-  hasTowCheckbox = signal<boolean>(false);
-  hasYokeCheckbox = signal<boolean>(false);
   carModels = signal<CarModel[]>([]);
   carConfigs = signal<CarConfig[]>([]);
   formProviderService = inject(FormProviderService);
+  private hasTowCheckbox = this.formProviderService.hasTowCheckbox;
+  private hasYokeCheckbox = this.formProviderService.hasYokeCheckbox;
   modelCode = this.formProviderService.modelCode;
   modelColor = this.formProviderService.modelColor;
   modelCode$ = toObservable(this.modelCode);
@@ -39,12 +39,13 @@ export class CartService {
     return carConfigPrice + modelColoPrice + includeTowPrice + includeYokePrice;
   });
   stepsForm = this.formProviderService.getStepsForm();
+  modelCodeSubscription?: Subscription;
 
   constructor(private carService: CarService) {}
 
   initializeCart() {
-    this.modelCode$.subscribe((modelCode) => {
-      this.handleOptionsCleanup();
+    this.modelCodeSubscription = this.modelCode$.subscribe((modelCode) => {
+      this.formProviderService.handleOptionsCleanup();
 
       if (modelCode) {
         this.setCartOptions(modelCode);
@@ -58,29 +59,13 @@ export class CartService {
         defaultColor.code
       );
     });
-    return this.carService
+    this.carService
       .getCarModels()
-      .pipe(tap((carModels) => this.carModels.set(carModels)));
+      .subscribe((carModels) => this.carModels.set(carModels));
   }
 
-  handleOptionsCleanup() {
-    if (this.configIdControl.value) {
-      this.configIdControl.setValue(null);
-    }
-    this.includeTowControl.setValue(false);
-    this.includeYokeControl.setValue(false);
-  }
-
-  get configIdControl() {
-    return this.stepsForm.controls['configAndOptions'].controls['configId'];
-  }
-
-  get includeTowControl() {
-    return this.stepsForm.controls['configAndOptions'].controls['includeTow'];
-  }
-
-  get includeYokeControl() {
-    return this.stepsForm.controls['configAndOptions'].controls['includeYoke'];
+  cleanupAllSubscriptions() {
+    this.modelCodeSubscription?.unsubscribe();
   }
 
   setCartOptions(carModelCode: string) {

@@ -7,7 +7,6 @@ import { FormProviderService } from '../../services/form-provider.service';
   standalone: true,
   imports: [RouterModule],
   templateUrl: './tabs.component.html',
-  styleUrl: './tabs.component.scss',
 })
 export class TabsComponent {
   constructor(
