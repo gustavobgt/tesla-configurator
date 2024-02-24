@@ -21,7 +21,7 @@
             {{ carConfig.description }}
           </option>
         </select>
-        <p *ngIf="!!selectedCarConfig">
+        <p *ngIf="selectedCarConfig$ | async as selectedCarConfig">
           Range: {{ selectedCarConfig.range }} miles - Max speed:
           {{ selectedCarConfig.speed }} - Cost
           {{ selectedCarConfig.price | currency }}

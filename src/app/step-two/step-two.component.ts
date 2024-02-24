@@ -4,18 +4,26 @@ import { FormProviderService } from '../services/form-provider.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CarConfig } from '../models/car-config.model';
-import { CurrencyPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe, CurrencyPipe, NgFor, NgIf } from '@angular/common';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-step-two',
   standalone: true,
-  imports: [HttpClientModule, ReactiveFormsModule, NgFor, NgIf, CurrencyPipe],
+  imports: [
+    HttpClientModule,
+    ReactiveFormsModule,
+    NgFor,
+    NgIf,
+    CurrencyPipe,
+    AsyncPipe,
+  ],
   providers: [CarOptionsService],
   templateUrl: './step-two.component.html',
 })
 export class StepTwoComponent implements OnInit {
   carConfigs: CarConfig[] = [];
-  selectedCarConfig: CarConfig | null = null;
+  selectedCarConfig$?: Observable<CarConfig | null>;
   hasIncludeTowCheckbox: boolean = false;
   hasIncludeYokeCheckbox: boolean = false;
 
@@ -50,10 +58,7 @@ export class StepTwoComponent implements OnInit {
     configIdControl.valueChanges.subscribe((configId) =>
       this.formProviderService.onCarConfigChange(configId, this.carConfigs)
     );
-    // TODO: unsubscribe ???? Usar async pipe
-    this.formProviderService.selectedCarConfig$.subscribe((value) => {
-      this.selectedCarConfig = value;
-    });
+    this.selectedCarConfig$ = this.formProviderService.selectedCarConfig$;
   }
 
   get stepsForm() {

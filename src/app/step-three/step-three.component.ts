@@ -41,12 +41,12 @@ export class StepThreeComponent implements OnInit {
     });
   }
 
-  get hasTowHitchPackage() {
+  get includeTow() {
     return this.stepsForm.controls['configAndOptions'].controls['includeTow']
       .value;
   }
 
-  get hasYokePackage() {
+  get includeYoke() {
     return this.stepsForm.controls['configAndOptions'].controls['includeYoke']
       .value;
   }

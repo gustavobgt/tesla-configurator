@@ -27,7 +27,7 @@
   </div>
 </div>
 
-<div class="row" *ngIf="hasTowHitchPackage">
+<div class="row" *ngIf="includeTow">
   <div class="col-sm">
     <p>
       <b>Tow Hitch Package</b>
@@ -38,7 +38,7 @@
   </div>
 </div>
 
-<div class="row" *ngIf="hasYokePackage">
+<div class="row" *ngIf="includeYoke">
   <div class="col-sm">
     <p>
       <b>Yoke Package</b>
@@ -62,8 +62,8 @@
       {{
         selectedCarConfig.price +
           selectedModelColor.price +
-          (hasTowHitchPackage ? 1000 : 0) +
-          (hasYokePackage ? 1000 : 0) | currency
+          (includeTow ? 1000 : 0) +
+          (includeYoke ? 1000 : 0) | currency
       }}
     </p>
   </div>
